@@ -140,7 +140,20 @@ const Footer = () => {
       <div className="border-t border-primary-foreground/10">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/60">
-            <p>© 2024 DalilMaghrib. Tous droits réservés.</p>
+            <div className="flex flex-col items-center md:items-start gap-1">
+              <p>© 2026 DalilMaghrib. Tous droits réservés.</p>
+              <p className="text-xs">
+                Développé par{' '}
+                <a
+                  href="https://www.evolystis.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-moroccan-gold hover:underline transition-colors"
+                >
+                  Evolystis
+                </a>
+              </p>
+            </div>
             <div className="flex gap-6">
               <a href="#" className="hover:text-moroccan-gold transition-colors">
                 Politique de confidentialité
