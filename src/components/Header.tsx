@@ -3,7 +3,7 @@ import { Menu, X, MapPin, Search, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthDialog } from './AuthDialog';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +17,15 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
-    { name: 'Accueil', href: '/' },
-    { name: 'Catégories', href: '/#categories' },
-    { name: 'Villes', href: '/#cities' },
-    { name: 'Espaces', href: '/#spaces' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Accueil', href: '/', isAnchor: false },
+    { name: 'Catégories', href: '#categories', isAnchor: true },
+    { name: 'Villes', href: '#cities', isAnchor: true },
+    { name: 'Espaces', href: '#spaces', isAnchor: true },
+    { name: 'Contact', href: '#contact', isAnchor: true },
   ];
 
   const handleSignOut = async () => {
@@ -33,6 +35,27 @@ const Header = () => {
   const getUserInitials = () => {
     if (!user?.email) return 'U';
     return user.email.charAt(0).toUpperCase();
+  };
+
+  const handleNavClick = (e: React.MouseEvent, link: typeof navLinks[0]) => {
+    if (link.isAnchor) {
+      e.preventDefault();
+      if (location.pathname === '/') {
+        const element = document.querySelector(link.href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        navigate('/');
+        setTimeout(() => {
+          const element = document.querySelector(link.href);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      }
+    }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -51,13 +74,24 @@ const Header = () => {
 
             <nav className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-muted-foreground hover:text-primary transition-colors font-medium"
-                >
-                  {link.name}
-                </Link>
+                link.isAnchor ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link)}
+                    className="text-muted-foreground hover:text-primary transition-colors font-medium cursor-pointer"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
             </nav>
 
@@ -113,14 +147,25 @@ const Header = () => {
             <div className="md:hidden py-4 border-t border-border animate-fade-in">
               <nav className="flex flex-col gap-4">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors font-medium py-2"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
+                  link.isAnchor ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      onClick={(e) => handleNavClick(e, link)}
+                      className="text-muted-foreground hover:text-primary transition-colors font-medium py-2 cursor-pointer"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.name}
+                      to={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors font-medium py-2"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )
                 ))}
                 {user ? (
                   <Button variant="outline" onClick={handleSignOut} className="mt-4">
