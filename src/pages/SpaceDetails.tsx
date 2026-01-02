@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSpace } from '@/hooks/useSpaces';
 import { useReviews, useCreateReview } from '@/hooks/useReviews';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import StarRating from '@/components/StarRating';
-import { MapPin, Phone, Mail, Globe, Facebook, Instagram, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Facebook, Instagram, Twitter, Home } from 'lucide-react';
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -96,6 +96,13 @@ export default function SpaceDetails() {
   return (
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-6xl mx-auto">
+        <Button variant="ghost" size="sm" className="mb-4" asChild>
+          <Link to="/">
+            <Home className="w-4 h-4 mr-2" />
+            Retour à l'accueil
+          </Link>
+        </Button>
+
         <div className="relative h-96 rounded-lg overflow-hidden mb-8">
           <img
             src={space.image_url || ''}

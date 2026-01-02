@@ -1,7 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useCategories } from '@/hooks/useCategories';
 import { SpaceCard } from '@/components/SpaceCard';
+import { Button } from '@/components/ui/button';
+import { Home } from 'lucide-react';
 
 export default function CategorySpaces() {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -30,6 +32,13 @@ export default function CategorySpaces() {
   return (
     <div className="min-h-screen pt-20 px-4 pb-12">
       <div className="max-w-7xl mx-auto">
+        <Button variant="ghost" size="sm" className="mb-4" asChild>
+          <Link to="/">
+            <Home className="w-4 h-4 mr-2" />
+            Retour à l'accueil
+          </Link>
+        </Button>
+
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">
             {category?.name || 'Catégorie'}
